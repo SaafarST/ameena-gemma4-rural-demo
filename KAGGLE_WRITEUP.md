@@ -1,4 +1,4 @@
-# Ameena Offline — Gemma 4 for Rural Central Asian Schools
+# Ameena Offline: AI-Powered LMS for Rural Schools
 
 **Tracks:** Digital Equity & Inclusivity · Future of Education · llama.cpp Special Prize
 **Team:** Saidzoda Engineering LLC (Dushanbe, Tajikistan)
@@ -12,6 +12,8 @@ That is the digital divide we set out to close.
 ## What we built
 
 **Ameena Offline** is a working offline AI tutor that runs **Gemma 4** locally via `llama.cpp` on a $100-class device — a Raspberry Pi, a low-end Android tablet, or a teacher's MacBook Air — and answers curriculum questions in **Tajik, Uzbek, Kyrgyz, and Kazakh**.
+
+Extends Ameena's existing cloud AI tutor (currently Gemini-powered) to run fully offline, eliminating per-question credit costs for free-tier rural students.
 
 No internet is required at inference time. No fine-tuning is required for v1: we use prompt engineering with a teacher-persona system message and curriculum-aligned exemplars. The module is designed to slot into the existing Ameena PWA platform (`ameena.tj`), which already has an offline-first content pipeline.
 
@@ -29,6 +31,7 @@ Our submission is deliberately scoped to what one engineer can ship and a teache
 - **Language adaptation:** entirely prompt-based for v1 — a Tajik teacher persona plus a grade-level constraint. We have a fine-tuning path waiting in v2 (see below), but the hackathon submission ships without it because the prompting result is already useful.
 - **Offline-first integration:** the Ameena PWA already routes book-content requests through an `OfflineManager` (`src/services/OfflineManager.ts`) that caches metadata to IndexedDB via `idb-keyval` and falls back to that cache whenever `navigator.onLine === false`. The book reader at `src/pages/BookReader.tsx:962-1127` calls `OfflineManager.getCachedBooks()` directly in the offline path. Wiring Gemma 4 in is a one-line change: in the same offline branch, the cloud tutor call gets replaced by a local `llama.cpp` call.
 - **Mobile shell:** Capacitor wraps the PWA for Android (`app.lovable.ameena` in `capacitor.config.ts`). The GGUF weights are pre-downloaded once during onboarding and live alongside the app's IndexedDB content.
+- **Platform integration:** Plugs directly into Ameena's 21-locale i18n system (`src/locales/`) and mode-aware rendering pipeline (Language/STEM/Compliance), ensuring curriculum-aligned responses without cloud dependency.
 
 ## Why Gemma 4 specifically
 
@@ -57,6 +60,7 @@ This is not a hypothetical project. Ameena is an operating platform with paying 
 - **Languages addressed.** Tajik, Uzbek, Kyrgyz, Kazakh — ~40M speakers across four post-Soviet republics.
 - **Device floor.** $100 Android tablets, Raspberry Pi 4 with 4 GB RAM, MacBook Air. The Q4_K_M GGUF fits all three.
 - **Connectivity floor.** 2G or no internet. The Ameena PWA already runs 30-day offline content windows; Gemma 4 extends that to AI tutoring on the same hardware.
+- **Credit system alignment.** Offline inference bypasses Ameena's credit meter entirely, making AI tutoring sustainable for students on the free tier (15 credits/month) without draining institutional pools.
 - **Alignment.** UN SDG 4 (Quality Education) and SDG 10 (Reduced Inequalities).
 
 ## What is and is not in this submission

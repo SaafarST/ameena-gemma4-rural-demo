@@ -1,4 +1,4 @@
-# Ameena Offline — Gemma 4 for Rural Central Asian Schools
+# Ameena Offline: AI-Powered LMS for Rural Schools
 
 > Submission for the **Kaggle Gemma 4 Good Hackathon**
 > Tracks: **Digital Equity & Inclusivity** + **Future of Education** + **llama.cpp Special Prize**
@@ -47,13 +47,25 @@ python inference.py "Феълҳои номукаммалро шарҳ диҳед
 
 ## Sample prompts (`sample_prompts/`)
 
+Two prompt families, both written in Tajik (Cyrillic):
+
+**Tutor prompts — student-facing Q&A:**
+
 | File | Subject | Grade | Example |
 |---|---|---|---|
 | `tajik_math.txt` | Mathematics | 5 | Adding fractions |
 | `tajik_science.txt` | Natural science | 6 | What is water made of |
 | `tajik_language.txt` | Tajik language | 4 | Imperfect verbs with examples |
 
-All three are written in Tajik (Cyrillic), using the teacher-persona prompting pattern Ameena uses in production.
+**Course-generation prompts — author-facing, one per Ameena rendering mode (Language / STEM / Compliance):**
+
+| File | Mode | Output shape |
+|---|---|---|
+| `course_language.txt` | Language Learning | 5-lesson Tajik-grammar course, grade 4 (objective + examples + exercises per lesson) |
+| `course_stem.txt` | STEM | 5-chapter fractions course, grade 5 (theory + worked examples + practice per chapter) |
+| `course_compliance.txt` | Compliance | 4-module workplace fire-safety course, adult learners (rules + scenarios + end-of-module quiz) |
+
+The course-generation prompts demonstrate that Gemma 4 offline can drive Ameena's mode-aware rendering pipeline (`LanguageRenderer` / `StemMarkdownRenderer` / `ComplianceRenderer`), not just answer one-shot tutoring questions.
 
 ## Why Gemma 4 specifically
 
@@ -72,7 +84,7 @@ All three are written in Tajik (Cyrillic), using the teacher-persona prompting p
 
 ## Team
 
-- **Tohir Saidzoda** — CTO, Saidzoda Engineering LLC (Dushanbe). Background in Tajik-language LLM continual pretraining (Qwen3 8B and 14B on ~1B-token Tajik corpora).
+- **Tohir Saidzoda** — CTO, Saidzoda Engineering LLC (Dushanbe). Background in Tajik-language LLM continual pretraining (Qwen3 8B and 14B on ~370M-token Tajik corpora).
 - **Madina Abdusalomzoda** — CEO, Saidzoda Engineering LLC. Education strategy and partnerships.
 - **Saidzoda Engineering** — NVIDIA for Startups member; Google Cloud credits recipient.
 
